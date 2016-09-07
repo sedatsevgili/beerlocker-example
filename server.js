@@ -5,6 +5,7 @@ var passport = require('passport');
 var beerController = require('./controllers/beer');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
+var clientController = require('./controllers/client');
 var app = express();
 var router = express.Router();
 
@@ -28,6 +29,10 @@ router.route('/beers/:beer_id')
 router.route('/users')
 	.post(userController.postUsers)
 	.get(authController.isAuthenticated, userController.getUsers);
+
+router.route('/clients')
+	.post(authController.isAuthenticated, clientController.postClients)
+	.get(authController.isAuthenticated, clientController.getClients);
 
 app.use('/api', router);
 app.listen(3000);
