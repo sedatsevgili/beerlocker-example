@@ -34,19 +34,11 @@ exports.getBeer = function(req, res) {
 };
 
 exports.putBeer = function(req, res) {
-	Beer.find({_id: req.params.beer_id, userId: req.user._id}, function(err, beer) {
+	Beer.update({userId: req.user._id, _id: req.params.beer_id}, {quantity: req.body.quantity}, function(err, num, raw) {
 		if(err) {
 			return res.send(err);
 		}
-
-		beer.quantity = req.body.quantity;
-		beer.save(function(err) {
-			if(err) {
-				return res.send(err);
-			}
-
-			res.json(beer);
-		});
+		res.json({message: num + ' updated!'});
 	});
 };
 
